@@ -6,7 +6,7 @@ const Item = props => {
     main: {
       backgroundColor: props.bgcol || "white",
       flexDirection: "row",
-      padding: 4,
+      padding: props.mpad || 4,
       margin: props.mrgn || 1,
       paddingTop: props.padtop || 10,
       borderRadius: 1,
@@ -20,19 +20,19 @@ const Item = props => {
       justifyContent: "space-around"
     },
     head: {
-      padding: 7,
+      padding: props.hpad || 7,
       paddingTop: props.hpadtop || 0,
       paddingLeft: 15,
-      fontSize: 17,
+      fontSize: props.hsize || 17,
       fontWeight: props.hwt || "normal",
       color: props.hcol || "black",
       flexGrow: 1
     },
     text: {
-      padding: 7,
+      padding: props.tpad || 7,
       paddingTop: props.tpadtop || 0,
       paddingRight: 15,
-      fontSize: 17,
+      fontSize: props.tsize || 17,
       fontWeight: props.twt || "200",
       color: props.tcol || "black"
     }

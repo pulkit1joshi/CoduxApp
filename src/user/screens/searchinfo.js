@@ -3,31 +3,59 @@ import { View, TextInput, Button, StyleSheet, Text, Image } from "react-native";
 import { connect } from "react-redux";
 import { fetchUser } from "../../redux/Actions/userActions";
 import Item from "../components/item";
-const promiseInProgress = usePromiseTracker();
+import { usePromiseTracker } from "react-promise-tracker";
+import { useNavigation } from "@react-navigation/native";
+import LoadingIndicator from "../../loader";
 
 function SearchedInfo(props) {
-  const promiseInProgress = usePromiseTracker();
-  return (
-    <View style={styles.input}>
-      <View style={styles.card}>
-        <Image
-          style={styles.tinyLogo}
-          source={{
-            uri: "https:" + props.info.titlePhoto
+  const { promiseInProgress } = usePromiseTracker();
+  const navigation = useNavigation();
+
+  if (promiseInProgress === true) {
+    return (
+      <View style={[styles.container, styles.horizontal]}>
+        <LoadingIndicator />
+      </View>
+    );
+  }
+
+  if (props.gotosearch === 1) {
+    return (
+      <View>
+        <View
+          style={{
+            flexDirection: "column",
+            alignSelf: "center"
           }}
-        />
-        <Text style={styles.handle}>{props.info.handle}</Text>
+        >
+          <Item hcol="red" head="Invalid User entered"></Item>
+        </View>
       </View>
-      <View style={styles.card}>
-        <Item head="Rank" text={props.info.rank} />
-        <Item head="Organistion" text={props.info.organisation} />
-        <Item head="Contribution" text={props.info.contribution} />
-        <Item head="Rating" text={props.info.rating} />
-        <Item head="Max-Rank" text={props.info.maxRank} />
-        <Item head="Max-Rating" text={props.info.maxRating} />
+    );
+  } else {
+    return (
+      <View style={styles.input}>
+        <View style={styles.card}>
+          <Image
+            style={styles.tinyLogo}
+            source={{
+              uri: "https:" + props.info.titlePhoto
+            }}
+          />
+          <Text style={styles.handle}>{props.info.handle}</Text>
+        </View>
+        <View style={styles.card}>
+          <Item head="Rank" text={props.info.rank} />
+          <Item head="Organistion" text={props.info.organisation} />
+          <Item head="Contribution" text={props.info.contribution} />
+          <Item head="Rating" text={props.info.rating} />
+          <Item head="Max-Rank" text={props.info.maxRank} />
+          <Item head="Max-Rating" text={props.info.maxRating} />
+          <Item head="nf" text={props.gotosearch} />
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 /*
@@ -81,11 +109,21 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "100",
     margin: 10
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
   }
 });
 
 const mapStateToProps = state => {
   return {
+    gotosearch: state.user.gotosearch,
     info: state.user.info
   };
 };

@@ -27,7 +27,7 @@ const chartConfig = {
 
 export default class LineG extends React.Component {
   componentDidMount() {
-    console.log(this.props.data);
+    //console.log(this.props.data);
   }
 
   getdata = () => {
@@ -38,7 +38,10 @@ export default class LineG extends React.Component {
       labels.push(index);
       return 0;
     });
-    console.log(data2);
+    //console.log(data2);
+    if (!data2) {
+      data2 = [1, 2, 3];
+    }
     let data = {
       labels: [],
       datasets: [
@@ -49,12 +52,12 @@ export default class LineG extends React.Component {
         }
       ]
     };
-    console.log(data);
+
     return data;
   };
 
   render() {
-    console.log(this.props.data);
+    //console.log(this.props.data);
     const screenWidth = Math.round(Dimensions.get("window").width - 30);
     if (!screenWidth) screenWidth = 370;
     return (

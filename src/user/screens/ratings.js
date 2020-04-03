@@ -1,46 +1,156 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { fetchRatingHist } from "../../redux/Actions/userActions";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Linking,
+  Modal,
+  Vibration
+} from "react-native";
 import { connect } from "react-redux";
 import LineG from "../components/line";
 import Item from "../components/item";
 import Header from "../../Header";
 
-class Ratings extends React.Component {
-  componentDidMount() {
-    console.log("mounted");
-    this.props.fetchRatingHist(this.props.name);
-  }
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
+import { Button } from "react-native";
 
-  getdata = () => {
-    var data2 = [];
-    this.props.ratinginfo.map((datapoint, index) => {
+import LoadingIndicator from "../../loader";
+import { usePromiseTracker } from "react-promise-tracker";
+
+function Ratings(props) {
+  const { promiseInProgress } = usePromiseTracker();
+  const [toggle, setToggle] = useState(false);
+  const [togglemodal, setModal] = useState(false);
+  const [link, setLink] = useState(1);
+  function getdata() {
+    let data2 = [];
+    //console.log(props);
+    props.ratinginfo.map((datapoint, index) => {
       data2.push(datapoint.oldRating);
 
       return 0;
     });
-    console.log("Get data called: ");
-    console.log(this.props.ratinginfo);
+    if (!data2[0]) {
+      data2 = [0];
+    }
     return data2;
-  };
+  }
 
-  render() {
+  if (promiseInProgress === true) {
+    return (
+      <View style={[styles.container, styles.horizontal]}>
+        <LoadingIndicator />
+      </View>
+    );
+  }
+
+  if (props.gotosearch === 1) {
     return (
       <View>
-        <Header name={this.props.name} />
-        <View style={style.center}>
-          <Item
-            head="      Rating History"
-            hwt="500"
-            bgcol="#5bc0de"
-            tcol="white"
-            hcol="white"
-          />
-        </View>
-        <View style={style.shade}>
-          <LineG data={this.getdata()} />
+        <Header />
+        <View
+          style={{
+            flexDirection: "column",
+            alignSelf: "center"
+          }}
+        >
+          <Item hcol="red" head="Invalid User entered"></Item>
         </View>
       </View>
+    );
+  } else {
+    return (
+      <ScrollView verticle={true}>
+        <View>
+          <Header name={props.name} />
+          <View style={[style.center, style.margin]}>
+            <Item
+              head="Rating History"
+              hwt="500"
+              bgcol="#5bc0de"
+              tcol="white"
+              hcol="white"
+            />
+          </View>
+          <Modal
+            style={[styles.container, styles.horizontal]}
+            animationType="slide"
+            transparent={true}
+            visible={togglemodal}
+          >
+            <View style={{ marginTop: "10%" }}>
+              <Item
+                head="Navigating to the contest"
+                text=""
+                hwt="200"
+                twt="100"
+                hpadtop={20}
+                padtop={30}
+              />
+              <Button
+                onPress={() => {
+                  setModal(false);
+                  Linking.openURL("https://codeforces.com/contest/" + link);
+                }}
+                title="OK"
+              />
+              <Button
+                style={{
+                  color: "red"
+                }}
+                onPress={() => {
+                  setModal(false);
+                }}
+                style={style.center}
+                title="Cancle"
+              />
+            </View>
+          </Modal>
+          <View style={style.shade}>
+            <LineG data={getdata()} />
+          </View>
+
+          <View style={style.center}>
+            <TouchableOpacity
+              onPressIn={() => setToggle(!toggle)}
+              style={style.center}
+            >
+              <Item
+                head="Contests Participated"
+                text="+"
+                hwt="500"
+                twt="900"
+                bgcol="#5bc0de"
+                tcol="white"
+                hcol="white"
+              />
+            </TouchableOpacity>
+          </View>
+
+          {toggle &&
+            props.ratinginfo.map((datapoint, index) => (
+              <TouchableOpacity
+                key={index}
+                style={style.center}
+                onPressIn={() => {
+                  Vibration.vibrate(100000);
+                  setModal(true);
+                  setLink(Number(datapoint.contestId));
+                  console.log("Long Pressed");
+                  return 0;
+                }}
+              >
+                <Item
+                  head={datapoint.contestName}
+                  text={datapoint.rank}
+                  hwt="200"
+                  twt="100"
+                />
+              </TouchableOpacity>
+            ))}
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -59,16 +169,33 @@ const style = StyleSheet.create({
   },
   center: {
     flexDirection: "row",
-    marginTop: 10,
     justifyContent: "center",
     alignItems: "center"
+  },
+  margin: {
+    marginTop: 10
+  }
+});
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    width: "100%",
+    height: "20%"
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10
   }
 });
 
 const mapStateToProps = state => {
   return {
+    gotosearch: state.user.gotosearch,
     name: state.user.name,
     ratinginfo: state.user.ratingHist
   };
 };
-export default connect(mapStateToProps, { fetchRatingHist })(Ratings);
+export default connect(mapStateToProps, null)(Ratings);

@@ -1,12 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import Item from "./user/components/item";
 import { Ionicons } from "@expo/vector-icons";
-import {
-  NavigationContainer,
-  useNavigation,
-  DrawerActions
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
