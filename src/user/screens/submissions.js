@@ -186,7 +186,7 @@ function Submissions(props) {
                     onLongPress={() => {
                       Vibration.vibrate(100);
                       settogglemodal(true);
-                      setqname(datapoint.name.substring(0, 20));
+                      setqname(datapoint.name.substring(0, 33));
                       setqindex(String(datapoint.index));
                       setcontestId(Number(datapoint.contestId));
                       return 0;
