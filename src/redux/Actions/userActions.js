@@ -58,7 +58,7 @@ var groupBy = function(data, key) {
 };
 
 export const fetchUSubmissions = string => dispatch => {
-  console.log("Submissions Fetched");
+  //console.log("Submissions Fetched");
   const url = userstatus + string;
   if (!string) {
     dispatch({
@@ -267,7 +267,7 @@ export const fetchUSubmissions = string => dispatch => {
         });
       })
       .catch(error => {
-        console.log("Error");
+        //console.log("Error");
         dispatch({
           type: FETCH_USUBMISSIONS,
           payload: error,

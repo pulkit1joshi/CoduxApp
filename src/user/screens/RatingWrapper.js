@@ -9,11 +9,7 @@ const ratings = props => {
     props.fetchRatingHist(props.name);
   });
 
-  return (
-    <View>
-      <Ratings />
-    </View>
-  );
+  return <Ratings />;
 };
 
 const mapStateToProps = state => {

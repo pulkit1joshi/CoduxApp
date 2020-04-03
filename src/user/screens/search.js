@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View, TextInput, Button, StyleSheet, Text, Image } from "react-native";
 import { connect } from "react-redux";
 import { fetchUser, fetchRatingHist } from "../../redux/Actions/userActions";
-
 import Item from "../components/item";
 
 function Search({ navigation, fetchUser }) {
   const [text, setText] = useState("");
   const [info, setInfo] = useState(false);
+
   function textInput(text) {
     setText(text);
-    console.log(text);
+    //console.log(text);
   }
 
   function searchHandle() {

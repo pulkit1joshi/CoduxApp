@@ -143,7 +143,6 @@ function Ratings(props) {
                   Vibration.vibrate(100);
                   setModal(true);
                   setLink(Number(datapoint.contestId));
-                  console.log("Long Pressed");
                   return 0;
                 }}
               >

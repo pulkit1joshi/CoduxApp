@@ -37,6 +37,7 @@ import { useNavigation, DrawerActions } from "@react-navigation/native";
 import submissions from "./src/user/screens/SubmissionsWrapper";
 import Upcoming from "./src/contest/screens/Upcoming";
 import Item from "./src/user/components/item";
+import Help from "./src/Help";
 
 const SearchN = createStackNavigator();
 const SearchN2 = createStackNavigator();
@@ -97,6 +98,7 @@ const UserDrawerContainer = () => {
       <UserDrawer.Screen name="Info" component={SearchStack2} />
       <UserDrawer.Screen name="Ratings" component={ratings} />
       <UserDrawer.Screen name="Submissions" component={submissions} />
+      <ContestDrawer.Screen name="About" component={Help} />
     </UserDrawer.Navigator>
   );
 };
@@ -107,6 +109,7 @@ const ContestDrawerContainer = () => {
   return (
     <ContestDrawer.Navigator>
       <ContestDrawer.Screen name="Upcoming" component={Upcoming} />
+      <ContestDrawer.Screen name="About" component={Help} />
     </ContestDrawer.Navigator>
   );
 };
@@ -145,10 +148,10 @@ const TabContainer = () => {
 export default function App() {
   return (
     <Provider store={store}>
-      <FlashMessage position="top" />
       <NavigationContainer>
         <TabContainer />
       </NavigationContainer>
+      <FlashMessage position="top" />
     </Provider>
   );
 }

@@ -10,11 +10,7 @@ const submissions = props => {
     // console.log("wrapper sub loaded");
     props.fetchUSubmissions(props.name);
   });
-  return (
-    <View>
-      <Submissions />
-    </View>
-  );
+  return <Submissions />;
 };
 
 const mapStateToProps = state => {

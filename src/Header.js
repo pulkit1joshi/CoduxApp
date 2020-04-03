@@ -49,7 +49,7 @@ export default function Header({ name, nodrawer }) {
       <View style={styles.head}>
         <TouchableOpacity
           onPressIn={() => {
-            if ({ nodrawer }) {
+            if (nodrawer == true) {
               navigation.navigate("Search");
             } else navigation.openDrawer();
           }}
