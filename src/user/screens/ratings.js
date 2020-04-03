@@ -61,9 +61,9 @@ function Ratings(props) {
     );
   } else {
     return (
-      <ScrollView verticle={true}>
-        <View>
-          <Header name={props.name} />
+      <View>
+        <Header name={props.name} />
+        <ScrollView verticle={true}>
           <View style={[style.center, style.margin]}>
             <Item
               head="Rating History"
@@ -81,12 +81,12 @@ function Ratings(props) {
           >
             <View style={{ marginTop: "10%" }}>
               <Item
-                head="Navigating to the contest"
+                head="Navigate to the contest?"
                 text=""
                 hwt="200"
                 twt="100"
-                hpadtop={20}
-                padtop={30}
+                hpadtop={10}
+                padtop={10}
               />
               <Button
                 onPress={() => {
@@ -96,6 +96,7 @@ function Ratings(props) {
                 title="OK"
               />
               <Button
+                color="red"
                 style={{
                   color: "red"
                 }}
@@ -103,7 +104,7 @@ function Ratings(props) {
                   setModal(false);
                 }}
                 style={style.center}
-                title="Cancle"
+                title="Cancel"
               />
             </View>
           </Modal>
@@ -133,8 +134,8 @@ function Ratings(props) {
               <TouchableOpacity
                 key={index}
                 style={style.center}
-                onPressIn={() => {
-                  Vibration.vibrate(100000);
+                onLongPress={() => {
+                  Vibration.vibrate(100);
                   setModal(true);
                   setLink(Number(datapoint.contestId));
                   console.log("Long Pressed");
@@ -149,8 +150,8 @@ function Ratings(props) {
                 />
               </TouchableOpacity>
             ))}
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }

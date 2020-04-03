@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import userReducer from "./userReducer.js";
-//import contestReducer from "./cfReducer.js";
+import contestReducer from "./cfReducer.js";
 
 export default combineReducers({
-  //contest: contestReducer,
+  contest: contestReducer,
   user: userReducer
 });

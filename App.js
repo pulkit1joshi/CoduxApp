@@ -40,6 +40,7 @@ import Header from "./src/Header";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import submissions from "./src/user/screens/SubmissionsWrapper";
+import Upcoming from "./src/contest/screens/Upcoming";
 
 const SearchN = createStackNavigator();
 const SearchN2 = createStackNavigator();
@@ -107,9 +108,9 @@ const UserDrawerContainer = () => {
 const ContestDrawerContainer = () => {
   return (
     <ContestDrawer.Navigator>
-      <ContestDrawer.Screen name="ICPC" component={ratings} />
-      <ContestDrawer.Screen name="IOI" component={ratings} />
-      <ContestDrawer.Screen name="CodeForces" component={ratings} />
+      <ContestDrawer.Screen name="Upcoming" component={Upcoming} />
+      <ContestDrawer.Screen name="Type" component={ratings} />
+      <ContestDrawer.Screen name="Format" component={ratings} />
     </ContestDrawer.Navigator>
   );
 };

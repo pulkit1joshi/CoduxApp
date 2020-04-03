@@ -1,4 +1,4 @@
-import { FETCH_CONTESTS } from "../actions/types";
+import { FETCH_CONTESTS } from "../Actions/types";
 
 const initialstate = {
   contestlist: [],
@@ -28,5 +28,20 @@ export default function(state = initialstate, action) {
   switch (action.type) {
     default:
       return state;
+    case FETCH_CONTESTS:
+      return {
+        ...state,
+        contestlist: action.payload.result,
+        upcominglist: action.upcoming,
+        div1list: action.div1list,
+        div2list: action.div2list,
+        div3list: action.div3list,
+        globallist: action.globallist,
+        cflist: action.cflist,
+        icpclist: action.icpclist,
+        ioilist: action.ioilist,
+        fetched: 1,
+        count: action.count
+      };
   }
 }

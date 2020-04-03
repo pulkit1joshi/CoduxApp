@@ -63,7 +63,7 @@ export const fetchUSubmissions = string => dispatch => {
   if (!string) {
     dispatch({
       type: FETCH_USUBMISSIONS,
-      payload: error,
+      payload: "User not entered",
       gotosearch: 1
     });
   }

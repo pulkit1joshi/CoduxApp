@@ -9,6 +9,7 @@ import LoadingIndicator from "../../loader";
 
 function SearchedInfo(props) {
   const { promiseInProgress } = usePromiseTracker();
+
   const navigation = useNavigation();
 
   if (promiseInProgress === true) {
@@ -17,9 +18,7 @@ function SearchedInfo(props) {
         <LoadingIndicator />
       </View>
     );
-  }
-
-  if (props.gotosearch === 1) {
+  } else if (props.gotosearch == 1) {
     return (
       <View>
         <View

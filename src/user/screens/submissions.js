@@ -17,6 +17,7 @@ function Submissions(props) {
   if (promiseInProgress == true) {
     return (
       <View style={[styles.container, styles.horizontal]}>
+        <Header name={props.name} />
         <LoadingIndicator />
       </View>
     );
@@ -37,7 +38,7 @@ function Submissions(props) {
   } else {
     return (
       <View>
-        <Header />
+        <Header name={props.name} />
         <ScrollView>
           <View style={{ paddingTop: 10 }}>
             <Item
@@ -143,7 +144,7 @@ const mapStateToProps = state => {
     byverdict: state.user.byverdict,
     verdicts: state.user.verdicts,
     problemsbytags: state.user.problemsbytags,
-    gotosearch: 0,
+    gotosearch: state.user.gotosearch,
     problemsinfo: state.user.problemsinfo,
     unsolved: state.user.unsolved,
     solved: state.user.solved,
@@ -153,8 +154,8 @@ const mapStateToProps = state => {
     langdata: state.user.langdata,
     verdictcount: state.user.verdictcount,
     uniqueprob: state.user.uniqueprob,
-    verdictinfo: state.user.verdictinfo
+    verdictinfo: state.user.verdictinfo,
+    name: state.user.name
   };
 };
-
 export default connect(mapStateToProps, null)(Submissions);
