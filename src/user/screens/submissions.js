@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Button } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Button,
+  Modal,
+  Vibration
+} from "react-native";
 import { connect } from "react-redux";
 import Header from "../../Header";
 import Item from "../components/item";
@@ -13,13 +20,18 @@ function Submissions(props) {
   const navigation = useNavigation();
   const [showUnsolved, setUnsolved] = useState(false);
   const [showSolved, setSolved] = useState(false);
+  const [contestId, setcontestId] = useState("");
+  const [qindex, setqindex] = useState("");
+  const [togglemodal, settogglemodal] = useState(false);
+  const [qname, setqname] = useState("");
+
+  //`https://codeforces.com/contest/${datapoint.contestId}/problem/${datapoint.index}`
 
   useEffect(() => {});
 
   if (promiseInProgress == true) {
     return (
       <View style={[styles.container, styles.horizontal]}>
-        <Header name={props.name} />
         <LoadingIndicator />
       </View>
     );
@@ -45,6 +57,49 @@ function Submissions(props) {
     return (
       <View>
         <Header name={props.name} />
+        <Modal
+          style={[styles.container, styles.horizontal]}
+          animationType="slide"
+          transparent={true}
+          visible={togglemodal}
+        >
+          <View style={{ marginTop: "10%" }}>
+            <Item
+              head="Navigate to problem :"
+              text={qname}
+              hwt="300"
+              twt="200"
+              hpadtop={10}
+              tpadtop={10}
+              padtop={10}
+              mpad={10}
+            />
+            <Button
+              onPress={() => {
+                settogglemodal(false);
+                Linking.openURL(
+                  "https://codeforces.com/contest/" +
+                    contestId +
+                    "/problem" +
+                    qindex +
+                    "/"
+                );
+              }}
+              title="OK"
+            />
+            <Button
+              color="red"
+              style={{
+                color: "red"
+              }}
+              onPress={() => {
+                settogglemodal(false);
+              }}
+              style={styles.center}
+              title="Cancel"
+            />
+          </View>
+        </Modal>
         <ScrollView>
           <View style={{ paddingTop: 10 }}>
             <Item
@@ -79,19 +134,33 @@ function Submissions(props) {
                 hcol="white"
               />
             </TouchableOpacity>
+
             <ScrollView>
               {showUnsolved &&
                 props.unsolved.map((datapoint, index) => (
-                  <Item
+                  <TouchableOpacity
                     key={index}
-                    head={datapoint.name}
-                    text={datapoint.contestId}
-                    mpad={3}
-                    tpad={3}
-                    hpad={3}
-                    hsize={14}
-                    tsize={14}
-                  />
+                    style={styles.center}
+                    onLongPress={() => {
+                      Vibration.vibrate(100);
+                      settogglemodal(true);
+                      setqname(datapoint.name.substring(0, 20));
+                      setqindex(String(datapoint.index));
+                      setcontestId(Number(datapoint.contestId));
+                      return 0;
+                    }}
+                  >
+                    <Item
+                      key={index}
+                      head={datapoint.name}
+                      text={datapoint.contestId}
+                      mpad={3}
+                      tpad={3}
+                      hpad={3}
+                      hsize={14}
+                      tsize={14}
+                    />
+                  </TouchableOpacity>
                 ))}
             </ScrollView>
           </View>
@@ -111,16 +180,29 @@ function Submissions(props) {
             <ScrollView>
               {showSolved &&
                 props.solved.map((datapoint, index) => (
-                  <Item
-                    key={index + 100000}
-                    head={datapoint.name}
-                    text={datapoint.contestId}
-                    mpad={3}
-                    tpad={3}
-                    hpad={3}
-                    hsize={14}
-                    tsize={14}
-                  />
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.center}
+                    onLongPress={() => {
+                      Vibration.vibrate(100);
+                      settogglemodal(true);
+                      setqname(datapoint.name.substring(0, 20));
+                      setqindex(String(datapoint.index));
+                      setcontestId(Number(datapoint.contestId));
+                      return 0;
+                    }}
+                  >
+                    <Item
+                      key={index + 100000}
+                      head={datapoint.name}
+                      text={datapoint.contestId}
+                      mpad={3}
+                      tpad={3}
+                      hpad={3}
+                      hsize={14}
+                      tsize={14}
+                    />
+                  </TouchableOpacity>
                 ))}
             </ScrollView>
           </View>
@@ -141,6 +223,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 10
+  },
+  center: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 

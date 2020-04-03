@@ -125,13 +125,28 @@ const Item = props => {
       <View style={{ flexDirection: "column" }}>
         <TouchableOpacity
           onPress={() => {
-            let time2 = new Date();
-            //if (time2.getTime() - (props.time - 1000 * 60 * 30) <= 0) return;
+            let contestUnix = new Date(props.time * 1000);
+            let remtime = contestUnix.getTime();
+            let remtimestr = new Date(remtime - 1000 * 60 * 30);
+            let curr = new Date();
+            if (remtimestr.getTime() - curr.getTime() < 0) return 0;
             Notifications.scheduleLocalNotificationAsync(localNotification, {
-              time: new Date(props.time * 1000).getTime() - 1000 * 60 * 30
+              time: remtimestr.getTime()
             });
+            let min = remtimestr.getMinutes();
+            if (min < 10) min = "0" + min;
             showMessage({
               message: `Reminder is set for ${props.head}`,
+              description:
+                remtimestr.getDate() +
+                "/" +
+                remtimestr.getMonth() +
+                "/" +
+                remtimestr.getFullYear() +
+                " - " +
+                remtimestr.getHours() +
+                ":" +
+                min,
               type: "info"
             });
           }}

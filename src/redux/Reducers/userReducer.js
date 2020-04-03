@@ -91,13 +91,13 @@ export default function(state = initialState, action) {
     case FETCH_USUBMISSIONS: {
       //console.log(action);
       if (!action.name) {
-        console.log("Name not found");
+        //console.log("Name not found");
         return {
           ...state,
           gotosearch: 1
         };
       } else if (!action.tags) {
-        console.log("Tags not found");
+        //console.log("Tags not found");
         return {
           ...state,
           gotosearch: 1

@@ -28,7 +28,7 @@ function Upcoming(props) {
   } else {
     return (
       <View>
-        <Header name="Upcoming Contests" />
+        <Header name="Upcoming Contests" nodrawer={false} />
         {props.upcoming.map((datapoint, index) => (
           <Item
             key={index + 10000}
