@@ -27,7 +27,11 @@ function SearchedInfo(props) {
             alignSelf: "center"
           }}
         >
-          <Item hcol="red" head="Invalid User entered"></Item>
+          <Item hcol="red" head="Please enter a valid user handle"></Item>
+          <Button
+            onPress={() => navigation.navigate("Search")}
+            title="Search Again"
+          />
         </View>
       </View>
     );

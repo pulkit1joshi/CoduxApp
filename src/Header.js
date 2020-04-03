@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function Header({ name }) {
+export default function Header({ name, nodrawer }) {
   const navigation = useNavigation();
   const styles = StyleSheet.create({
     main: {
@@ -47,7 +47,13 @@ export default function Header({ name }) {
   return (
     <View style={styles.main}>
       <View style={styles.head}>
-        <TouchableOpacity onPressIn={() => navigation.openDrawer()}>
+        <TouchableOpacity
+          onPressIn={() => {
+            if ({ nodrawer }) {
+              navigation.navigate("Search");
+            } else navigation.openDrawer();
+          }}
+        >
           <Ionicons name="md-menu" size={30} color="gray" />
         </TouchableOpacity>
       </View>

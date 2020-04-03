@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Codux",
-    "slug": "Codux",
+    "slug": "coduxprofile",
     "platforms": [
       "ios",
       "android",
@@ -22,7 +22,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.codux.codux",
+      "buildNumber": "1.0.0"
+    },
+    "sdkVersion": "37.0.0",
+    "description": "Application for viewing coding profile at code-forces.",
+    "githubUrl": "https://github.com/pulkit1joshi/CoduxApp",
+    "android": {
+      "package": "com.codux.codux",
+      "versionCode": 1
     }
   }
 }

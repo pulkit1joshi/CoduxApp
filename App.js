@@ -16,12 +16,7 @@ import {
   StatusBar
 } from "react-native";
 
-import {
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions
-} from "react-native/Libraries/NewAppScreen";
+import FlashMessage from "react-native-flash-message";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -41,6 +36,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import submissions from "./src/user/screens/SubmissionsWrapper";
 import Upcoming from "./src/contest/screens/Upcoming";
+import Item from "./src/user/components/item";
 
 const SearchN = createStackNavigator();
 const SearchN2 = createStackNavigator();
@@ -106,11 +102,11 @@ const UserDrawerContainer = () => {
 };
 
 const ContestDrawerContainer = () => {
+  // <ContestDrawer.Screen name="Type" component={ratings} />
+  // <ContestDrawer.Screen name="Format" component={ratings} />
   return (
     <ContestDrawer.Navigator>
       <ContestDrawer.Screen name="Upcoming" component={Upcoming} />
-      <ContestDrawer.Screen name="Type" component={ratings} />
-      <ContestDrawer.Screen name="Format" component={ratings} />
     </ContestDrawer.Navigator>
   );
 };
@@ -133,7 +129,15 @@ const TabContainer = () => {
     >
       <Tab.Screen name="User" component={UserDrawerContainer} />
       <Tab.Screen name="Contest" component={ContestDrawerContainer} />
-      <Tab.Screen name="Settings" component={ContestDrawerContainer} />
+      <Tab.Screen
+        name="Settings"
+        component={() => (
+          <View>
+            <Header nodrawer={true} />
+            <Item head="This feature is not implemented yet" />
+          </View>
+        )}
+      />
     </Tab.Navigator>
   );
 };
@@ -141,6 +145,7 @@ const TabContainer = () => {
 export default function App() {
   return (
     <Provider store={store}>
+      <FlashMessage position="top" />
       <NavigationContainer>
         <TabContainer />
       </NavigationContainer>

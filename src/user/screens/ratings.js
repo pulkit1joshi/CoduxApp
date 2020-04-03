@@ -14,15 +14,16 @@ import Header from "../../Header";
 
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import { Button } from "react-native";
-
 import LoadingIndicator from "../../loader";
 import { usePromiseTracker } from "react-promise-tracker";
+import { useNavigation } from "@react-navigation/native";
 
 function Ratings(props) {
   const { promiseInProgress } = usePromiseTracker();
   const [toggle, setToggle] = useState(false);
   const [togglemodal, setModal] = useState(false);
   const [link, setLink] = useState(1);
+  const navigation = useNavigation();
   function getdata() {
     let data2 = [];
     //console.log(props);
@@ -55,7 +56,11 @@ function Ratings(props) {
             alignSelf: "center"
           }}
         >
-          <Item hcol="red" head="Invalid User entered"></Item>
+          <Item hcol="red" head="Please enter a valid user handle"></Item>
+          <Button
+            onPress={() => navigation.navigate("Search")}
+            title="Search Again"
+          />
         </View>
       </View>
     );

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { connect } from "react-redux";
 import Header from "../../Header";
 import Item from "../components/item";
 import LoadingIndicator from "../../loader";
 import { usePromiseTracker } from "react-promise-tracker";
 import { ScrollView } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 function Submissions(props) {
   const { promiseInProgress } = usePromiseTracker();
+  const navigation = useNavigation();
   const [showUnsolved, setUnsolved] = useState(false);
   const [showSolved, setSolved] = useState(false);
 
@@ -31,7 +33,11 @@ function Submissions(props) {
             alignSelf: "center"
           }}
         >
-          <Item hcol="red" head="Invalid User entered"></Item>
+          <Item hcol="red" head="Please enter a valid user handle"></Item>
+          <Button
+            onPress={() => navigation.navigate("Search")}
+            title="Search Again"
+          />
         </View>
       </View>
     );
