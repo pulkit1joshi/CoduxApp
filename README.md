@@ -36,6 +36,11 @@ APK : https://github.com/pulkit1joshi/CoduxApp/tree/master/BetaAPK
 - [x] Set up navigations [ drawer , tab and stacks ]
 - [x] Design UI/UX of website
 - [x] Release beta version
+- [ ] Complete ratings tab (Check todo)
+- [ ] Complete Submissions tab (Check todo)
+- [ ] Complete Contest tab (Check todo)
+- [ ] Make UI responsive for android
+- [ ] Make User Storage and profile (Settings tab)
 - [ ] Add New Feature (3rd)
 - [ ] Complete Remaining features
 - [ ] Release Beta Version 2
