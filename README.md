@@ -11,7 +11,7 @@ APK : https://github.com/pulkit1joshi/CoduxApp/tree/master/BetaAPK
 * Basic User Informationg
 * Rating History 
 * Contests History
-* Rating Summary [TODO]
+* Rating Summary ~~[TODO]~~
 * Submissions
   * Solved List
   * Unsolved List
@@ -36,7 +36,7 @@ APK : https://github.com/pulkit1joshi/CoduxApp/tree/master/BetaAPK
 - [x] Set up navigations [ drawer , tab and stacks ]
 - [x] Design UI/UX of website
 - [x] Release beta version
-- [ ] Complete ratings tab (Check todo)
+- [x] Complete ratings tab (Check todo)
 - [ ] Complete Submissions tab (Check todo)
 - [ ] Complete Contest tab (Check todo)
 - [ ] Make UI responsive for android
