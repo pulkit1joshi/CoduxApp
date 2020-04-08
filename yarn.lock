@@ -1044,6 +1044,13 @@
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+"@react-native-community/async-storage@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.9.0.tgz#af26a8879bd2987970fbbe81a9623851d29a56f1"
+  integrity sha512-TlGMr02JcmY4huH1P7Mt7p6wJecosPpW+09+CwCFLn875IhpRqU2XiVA+BQppZOYfQdHUfUzIKyCBeXOlCEbEg==
+  dependencies:
+    deep-assign "^3.0.0"
+
 "@react-native-community/cli-debugger-ui@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-3.0.0.tgz#d01d08d1e5ddc1633d82c7d84d48fff07bd39416"
@@ -4930,6 +4937,11 @@ react-native-flash-message@^0.1.15:
   dependencies:
     prop-types "^15.7.2"
     react-native-iphone-x-helper "^1.2.1"
+
+react-native-font-weight@^0.1.5-alpha:
+  version "0.1.5-alpha"
+  resolved "https://registry.yarnpkg.com/react-native-font-weight/-/react-native-font-weight-0.1.5-alpha.tgz#4a60e5c38c3b6e1a8aa662b5c4cdac7052eb5867"
+  integrity sha512-yyVSIfx2EpwzG2hSAXkuERJxjo1xx0mta8XzkNPrbLzBBbiK6PBTwCm+L3K3BZGFWeI193pd/ukarF/YBXgE7Q==
 
 react-native-gesture-handler@~1.6.0:
   version "1.6.1"

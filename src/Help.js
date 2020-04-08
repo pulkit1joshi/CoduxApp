@@ -11,7 +11,7 @@ const Help = () => {
       <ScrollView>
         <Item head="Contests" text="" />
         <Item head="" text="Get list of upcoming contests" />
-        <Item head="" text=", Set reminder for upcoming contests" />
+        <Item head="" text="Set reminder for upcoming contests" />
         <Item head="User" text="" />
         <Item head="" text="Search any user on code-forces" />
         <Item head="" text="Check Submissions summary of any user" />

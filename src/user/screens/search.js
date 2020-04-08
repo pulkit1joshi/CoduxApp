@@ -3,6 +3,7 @@ import { View, TextInput, Button, StyleSheet, Text, Image } from "react-native";
 import { connect } from "react-redux";
 import { fetchUser, fetchRatingHist } from "../../redux/Actions/userActions";
 import Item from "../components/item";
+import { AsyncStorage } from "react-native";
 
 function Search({ navigation, fetchUser }) {
   const [text, setText] = useState("");
@@ -17,6 +18,14 @@ function Search({ navigation, fetchUser }) {
     fetchUser(text);
     fetchRatingHist(text);
     setInfo(true);
+    const storeData = async () => {
+      try {
+        await AsyncStorage.setItem("Name", JSON.stringify(text));
+      } catch (e) {
+        // saving error
+      }
+    };
+    storeData();
     navigation.navigate("Info");
   }
 
@@ -31,7 +40,7 @@ function Search({ navigation, fetchUser }) {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <Text style={styles.slog}>Check your coding profile at CodeForces</Text>
@@ -72,51 +81,51 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   head: {
-    fontSize: 30
+    fontSize: 30,
   },
   slog: {
     flexDirection: "row",
     fontSize: 15,
     padding: 10,
-    marginBottom: 20
+    marginBottom: 20,
   },
   tinyLogo: {
     width: 100,
     height: 100,
-    borderRadius: 50
+    borderRadius: 50,
   },
   tinput: {
     borderBottomWidth: 1,
     width: "55%",
     textAlign: "center",
     fontSize: 15,
-    fontWeight: "200"
+    fontWeight: "200",
   },
   card: {
     backgroundColor: "white",
     alignItems: "center",
     flexGrow: 1,
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   handle: {
     fontSize: 30,
-    fontWeight: "100"
-  }
+    fontWeight: "100",
+  },
 });
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     fetchUser: fetchUser,
-    fetchRatingHist: fetchRatingHist
+    fetchRatingHist: fetchRatingHist,
   };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    info: state.user.info
+    info: state.user.info,
   };
 };
 export default connect(mapStateToProps, { fetchUser, fetchRatingHist })(Search);

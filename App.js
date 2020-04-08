@@ -6,26 +6,28 @@
  * @flow strict-local
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  StatusBar
+  StatusBar,
 } from "react-native";
 
+import { YellowBox } from "react-native";
+YellowBox.ignoreWarnings(["Warning: ..."]);
+import * as Font from "expo-font";
+
 import FlashMessage from "react-native-flash-message";
+import FontManager from "react-native-font-weight";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import store from "./src/redux/store";
 import { Provider } from "react-redux";
-import Search from "./src/user/screens/search";
-import SearchedInfo from "./src/user/screens/searchinfo";
 import ratings from "./src/user/screens/RatingWrapper.js";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -34,9 +36,16 @@ import Header from "./src/Header";
 
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
+import { AsyncStorage } from "react-native";
+
+import store from "./src/redux/store";
+import Search from "./src/user/screens/search";
+import SearchedInfo from "./src/user/screens/searchinfo";
 import submissions from "./src/user/screens/SubmissionsWrapper";
+import Profile from "./src/user/screens/profile";
 import Upcoming from "./src/contest/screens/Upcoming";
 import Item from "./src/user/components/item";
+import { AppLoading } from "expo";
 import Help from "./src/Help";
 
 const SearchN = createStackNavigator();
@@ -61,7 +70,7 @@ const SearchStack = () => {
             </TouchableOpacity>
           ),
           headerTitleAlign: "left",
-          headerLayoutPreset: "left"
+          headerLayoutPreset: "left",
         }}
       />
     </SearchN.Navigator>
@@ -84,7 +93,7 @@ const SearchStack2 = () => {
             </TouchableOpacity>
           ),
           headerTitleAlign: "left",
-          headerLayoutPreset: "left"
+          headerLayoutPreset: "left",
         }}
       />
     </SearchN2.Navigator>
@@ -120,40 +129,55 @@ const TabContainer = () => {
       tabBarOptions={{
         activeBackgroundColor: "black",
         style: {
-          height: "7%"
+          height: "7%",
         },
         labelStyle: {
           fontSize: 15,
-          paddingBottom: 10
+          paddingBottom: 10,
         },
         activeTintColor: "white",
-        inactiveTintColor: "gray"
+        inactiveTintColor: "gray",
       }}
     >
       <Tab.Screen name="User" component={UserDrawerContainer} />
       <Tab.Screen name="Contest" component={ContestDrawerContainer} />
-      <Tab.Screen
-        name="Settings"
-        component={() => (
-          <View>
-            <Header nodrawer={true} />
-            <Item head="This feature is not implemented yet" />
-          </View>
-        )}
-      />
+      <Tab.Screen name="Settings" component={Profile} />
     </Tab.Navigator>
   );
 };
 
 export default function App() {
-  return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <TabContainer />
-      </NavigationContainer>
-      <FlashMessage position="top" />
-    </Provider>
-  );
+  const [fontload, setfontload] = useState(true);
+
+  useEffect(() => {
+    FontManager.init();
+  });
+
+  const fetchFonts = () => {
+    return Font.loadAsync({
+      "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+      "Roboto-Thin": require("./assets/fonts/Roboto-Thin.ttf"),
+      "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+      "Roboto-Ultralight": require("./assets/fonts/Roboto-Thin.ttf"),
+      "Roboto-Heavy": require("./assets/fonts/Roboto-Black.ttf"),
+      "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
+    });
+  };
+
+  if (fontload) {
+    return (
+      <AppLoading startAsync={fetchFonts} onFinish={() => setfontload(false)} />
+    );
+  } else {
+    return (
+      <Provider store={store}>
+        <NavigationContainer>
+          <TabContainer />
+        </NavigationContainer>
+        <FlashMessage position="top" />
+      </Provider>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -162,6 +186,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     alignContent: "flex-start",
-    alignSelf: "flex-start"
-  }
+    alignSelf: "flex-start",
+  },
 });

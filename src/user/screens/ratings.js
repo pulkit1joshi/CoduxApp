@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Linking,
   Modal,
-  Vibration
+  Vibration,
 } from "react-native";
 import { connect } from "react-redux";
 import LineG from "../components/line";
@@ -21,6 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 function Ratings(props) {
   const { promiseInProgress } = usePromiseTracker();
   const [toggle, setToggle] = useState(false);
+  const [togglesum, setTogglesum] = useState(true);
   const [togglemodal, setModal] = useState(false);
   const [link, setLink] = useState(1);
   const navigation = useNavigation();
@@ -53,7 +54,7 @@ function Ratings(props) {
         <View
           style={{
             flexDirection: "column",
-            alignSelf: "center"
+            alignSelf: "center",
           }}
         >
           <Item hcol="red" head="Please enter a valid user handle"></Item>
@@ -69,6 +70,33 @@ function Ratings(props) {
       <View>
         <Header name={props.name} />
         <ScrollView verticle={true}>
+          <View style={style.center}>
+            <TouchableOpacity
+              onPressIn={() => setTogglesum(!togglesum)}
+              style={style.center}
+            >
+              <Item
+                head="Rating Summary"
+                text="+"
+                hwt="500"
+                twt="900"
+                bgcol="#5bc0de"
+                tcol="white"
+                hcol="white"
+              />
+            </TouchableOpacity>
+          </View>
+
+          {togglesum &&
+            props.contestinf.map((datapoint, index) => (
+              <Item
+                head={datapoint.name}
+                text={datapoint.num}
+                hwt="200"
+                twt="100"
+              />
+            ))}
+
           <View style={[style.center, style.margin]}>
             <Item
               head="Rating History"
@@ -103,7 +131,7 @@ function Ratings(props) {
               <Button
                 color="red"
                 style={{
-                  color: "red"
+                  color: "red",
                 }}
                 onPress={() => {
                   setModal(false);
@@ -116,44 +144,45 @@ function Ratings(props) {
           <View style={style.shade}>
             <LineG data={getdata()} />
           </View>
-
-          <View style={style.center}>
-            <TouchableOpacity
-              onPressIn={() => setToggle(!toggle)}
-              style={style.center}
-            >
-              <Item
-                head="Contests Participated"
-                text="+"
-                hwt="500"
-                twt="900"
-                bgcol="#5bc0de"
-                tcol="white"
-                hcol="white"
-              />
-            </TouchableOpacity>
-          </View>
-
-          {toggle &&
-            props.ratinginfo.map((datapoint, index) => (
+          <View style={style.marginb}>
+            <View style={style.center}>
               <TouchableOpacity
-                key={index}
+                onPressIn={() => setToggle(!toggle)}
                 style={style.center}
-                onLongPress={() => {
-                  Vibration.vibrate(100);
-                  setModal(true);
-                  setLink(Number(datapoint.contestId));
-                  return 0;
-                }}
               >
                 <Item
-                  head={datapoint.contestName}
-                  text={datapoint.rank}
-                  hwt="200"
-                  twt="100"
+                  head="Contests Participated"
+                  text="+"
+                  hwt="500"
+                  twt="900"
+                  bgcol="#5bc0de"
+                  tcol="white"
+                  hcol="white"
                 />
               </TouchableOpacity>
-            ))}
+            </View>
+
+            {toggle &&
+              props.ratinginfo.map((datapoint, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={style.center}
+                  onLongPress={() => {
+                    Vibration.vibrate(100);
+                    setModal(true);
+                    setLink(Number(datapoint.contestId));
+                    return 0;
+                  }}
+                >
+                  <Item
+                    head={datapoint.contestName}
+                    text={datapoint.rank}
+                    hwt="200"
+                    twt="100"
+                  />
+                </TouchableOpacity>
+              ))}
+          </View>
         </ScrollView>
       </View>
     );
@@ -166,20 +195,25 @@ const style = StyleSheet.create({
     shadowColor: "#000",
     shadowOpacity: 0.4,
     shadowOffset: {
-      width: 2,
-      height: 2
+      width: 1,
+      height: 1,
     },
 
-    padding: 10
+    paddingLeft: 8,
+    padding: 1,
   },
   center: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    paddingTop: 5,
+  },
+  marginb: {
+    marginBottom: 80,
   },
   margin: {
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 });
 
 const styles = StyleSheet.create({
@@ -187,20 +221,83 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     width: "100%",
-    height: "20%"
+    height: "20%",
   },
   horizontal: {
     flexDirection: "row",
     justifyContent: "space-around",
-    padding: 10
-  }
+    padding: 10,
+  },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
+  let maxrank = 0;
+  let maxrankid = 0;
+  let minrank = 10000000;
+  let minrankid = 0;
+  let maxinc = 0;
+  let maxincid = 0;
+  let maxdec = 0;
+  let maxdecid = 0;
+  if (state.user.ratingHist.length === 0) minrank = 0;
+  for (let i = 0; i < state.user.ratingHist.length; i++) {
+    if (state.user.ratingHist[i].rank > maxrank) {
+      maxrank = state.user.ratingHist[i].rank;
+      maxrankid = state.user.ratingHist[i].contestId;
+    }
+    if (state.user.ratingHist[i].rank < minrank) {
+      minrank = state.user.ratingHist[i].rank;
+      minrankid = state.user.ratingHist[i].contestId;
+    }
+    if (
+      state.user.ratingHist[i].newRating - state.user.ratingHist[i].oldRating >
+      maxinc
+    ) {
+      maxinc =
+        state.user.ratingHist[i].newRating - state.user.ratingHist[i].oldRating;
+      maxincid = state.user.ratingHist[i].contestId;
+    }
+    if (
+      state.user.ratingHist[i].newRating - state.user.ratingHist[i].oldRating <
+      maxdec
+    ) {
+      maxdec =
+        state.user.ratingHist[i].newRating - state.user.ratingHist[i].oldRating;
+      maxdecid = state.user.ratingHist[i].contestId;
+    }
+  }
+  let contestinf = [];
+  contestinf.push({
+    name: "Contests",
+    num: state.user.ratingHist.length,
+    id: -1,
+  });
+  contestinf.push({
+    name: "Maximum rank",
+    num: maxrank,
+    id: maxrankid,
+  });
+  contestinf.push({
+    name: "Minimum rank",
+    num: minrank,
+    id: minrankid,
+  });
+  contestinf.push({
+    name: "Maximum Increase",
+    num: maxinc,
+    id: maxincid,
+  });
+  contestinf.push({
+    name: "Maximum Decrease",
+    num: maxdec,
+    id: maxdecid,
+  });
+
   return {
     gotosearch: state.user.gotosearch,
     name: state.user.name,
-    ratinginfo: state.user.ratingHist
+    contestinf: contestinf,
+    ratinginfo: state.user.ratingHist,
   };
 };
 export default connect(mapStateToProps, null)(Ratings);
